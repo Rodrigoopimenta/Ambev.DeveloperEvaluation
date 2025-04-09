@@ -6,14 +6,14 @@ namespace Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 /// <summary>
 /// Profile for mapping between User entity and CreateUserResponse
 /// </summary>
-public class CreateSaleProfile : Profile
+public class CreateUserProfile : Profile
 {
     /// <summary>
     /// Initializes the mappings for CreateUser operation
     /// </summary>
-    public CreateSaleProfile()
+    public CreateUserProfile()
     {
-        CreateMap<CreateSaleCommand, User>();
-        CreateMap<User, CreateSaleResult>();
+        CreateMap<CreateUserCommand, User>();
+        CreateMap<User, CreateUserResult>();
     }
 }

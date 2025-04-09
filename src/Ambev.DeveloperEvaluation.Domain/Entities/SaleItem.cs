@@ -1,59 +1,66 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Exceptions;
 using System.Globalization;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
-    /// <summary>
-    /// Represents an item in a sale, including material details, pricing, and cancellation status.
-    /// </summary>
     public class SaleItem : BaseEntity
     {
-        /// <summary>
-        /// Gets the unique identifier of the sale that this item belongs to.
-        /// </summary>
         public Guid SaleId { get; set; }
         public Sale? Sale { get; set; }
-        /// <summary>
-        /// Represents the item code
-        /// </summary>
-        public string ItemCode { get; set; }
-        /// <summary>
-        /// Represents the item name
-        /// </summary>
+
+        public string ItemCode { get; set; } = string.Empty;
         public string ItemName { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Gets the unit price of the product in this sale item.
-        /// The price must be a positive number.
-        /// </summary>
-        public decimal UnitPrice { get; set; }
+        public decimal UnitPrice { get; private set; }
+        public int Quantity { get; private set; }
+        public decimal Discount { get; private set; }
 
-        /// <summary>
-        /// Gets the quantity of the product in this sale item.
-        /// The quantity must be a positive integer.
-        /// </summary>
-        public int Quantity { get; set; }
+        public bool IsCancelled { get; private set; }
 
-        /// <summary>
-        /// Gets the discount applied to the sale item.
-        /// The discount must not be negative.
-        /// </summary>
-        public decimal Discount { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the sale item is cancelled.
-        /// If true, the item is no longer part of the active sale.
-        /// </summary>
-        public bool IsCancelled { get; set; }
-
-        /// <summary>
-        /// Gets the total price for the sale item, calculated as (UnitPrice * Quantity) - Discount.
-        /// Excludes cancelled items from sale calculations.
-        /// </summary>
         public decimal TotalPrice => (UnitPrice * Quantity) - Discount;
 
+        // Construtor para EF
+        private SaleItem() { }
+
         /// <summary>
-        /// Cancels the sale item. Sets the IsCancelled property to true.
+        /// Constructs a SaleItem applying business rules: quantity validation and discount.
+        /// </summary>
+        /// <param name="itemCode">The unique code of the item.</param>
+        /// <param name="itemName">The name of the item.</param>
+        /// <param name="unitPrice">The unit price of the item.</param>
+        /// <param name="quantity">The quantity of the item.</param>
+        public SaleItem(string itemCode, string itemName, decimal unitPrice, int quantity)
+        {
+            if (quantity > 20)
+                throw new BusinessRuleException("Cannot sell more than 20 units of the same product.");
+
+            if (quantity < 1)
+                throw new BusinessRuleException("Quantity must be at least 1.");
+
+            if (unitPrice <= 0)
+                throw new BusinessRuleException("Unit price must be greater than zero.");
+
+            ItemCode = itemCode;
+            ItemName = itemName;
+            UnitPrice = unitPrice;
+            Quantity = quantity;
+            Discount = CalculateDiscount(quantity, unitPrice);
+        }
+
+        private decimal CalculateDiscount(int quantity, decimal unitPrice)
+        {
+            if (quantity >= 10)
+                return quantity * unitPrice * 0.20m;
+
+            if (quantity >= 4)
+                return quantity * unitPrice * 0.10m;
+
+            return 0;
+        }
+
+        /// <summary>
+        /// Cancels the sale item.
         /// </summary>
         public void Cancel() => IsCancelled = true;
     }
