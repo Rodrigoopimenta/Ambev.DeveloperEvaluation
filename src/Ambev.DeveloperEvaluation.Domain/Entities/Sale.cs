@@ -59,8 +59,7 @@ public class Sale : BaseEntity
     /// <summary>
     /// Gets the list of items associated with the sale.
     /// </summary>
-    public IReadOnlyCollection<SaleItem> Items => _items.AsReadOnly();
-    private readonly List<SaleItem> _items = [];
+    public IList<SaleItem> Items { get; set; }
 
     /// <summary>
     /// Gets the list of domain events associated with the sale.
@@ -87,7 +86,7 @@ public class Sale : BaseEntity
     /// <param name="item">The item to add.</param>
     public void AddItem(SaleItem item)
     {
-        _items.Add(item);
+        Items.Add(item);
         CalculateTotal();
         _domainEvents.Add(new SaleModifiedEvent(this));
     }
@@ -107,7 +106,7 @@ public class Sale : BaseEntity
     /// <param name="itemId">The identifier of the item to cancel.</param>
     public void CancelItem(Guid itemId)
     {
-        var item = _items.FirstOrDefault(i => i.Id == itemId);
+        var item = Items.FirstOrDefault(i => i.Id == itemId);
         if (item != null)
         {
             item.Cancel();
@@ -121,7 +120,7 @@ public class Sale : BaseEntity
     /// </summary>
     private void CalculateTotal()
     {
-        TotalAmount = _items.Where(i => !i.IsCancelled)
+        TotalAmount = Items.Where(i => !i.IsCancelled)
                             .Sum(i => i.TotalPrice);
     }
 

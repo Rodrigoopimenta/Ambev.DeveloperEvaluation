@@ -13,5 +13,6 @@ public class GetSaleProfile : Profile
     public GetSaleProfile()
     {
         CreateMap<Ambev.DeveloperEvaluation.Domain.Entities.Sale, GetSaleResult>();
+        CreateMap<Ambev.DeveloperEvaluation.Domain.Entities.SaleItem, GetSaleItemResult>();
     }
 }

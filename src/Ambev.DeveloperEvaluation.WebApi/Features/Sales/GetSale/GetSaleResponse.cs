@@ -1,12 +1,11 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
-using Ambev.DeveloperEvaluation.Domain.Enums;
 
-namespace Ambev.DeveloperEvaluation.Application.Sale.GetSale;
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
 
 /// <summary>
-/// Response model for GetSale operation
+/// API response model for GetSale operation
 /// </summary>
-public class GetSaleResult
+public class GetSaleResponse
 {
     /// <summary>
     /// Gets or sets the unique sale number that identifies the sale.
@@ -51,6 +50,5 @@ public class GetSaleResult
     /// <summary>
     /// Gets or sets the list of items associated with the sale.
     /// </summary>
-    public List<GetSaleItemResult> Items { get; set; } = new();
-
+    public List<GetSaleItemResponse> Items { get; set; } = new();
 }

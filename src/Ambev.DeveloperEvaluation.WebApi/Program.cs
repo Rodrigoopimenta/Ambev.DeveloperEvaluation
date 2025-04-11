@@ -1,4 +1,6 @@
 using Ambev.DeveloperEvaluation.Application;
+using Ambev.DeveloperEvaluation.Application.Common.Messaging;
+using Ambev.DeveloperEvaluation.Application.Infrastructure.Messaging;
 using Ambev.DeveloperEvaluation.Common.HealthChecks;
 using Ambev.DeveloperEvaluation.Common.Logging;
 using Ambev.DeveloperEvaluation.Common.Security;
@@ -16,8 +18,7 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        try
-        {
+        
             Log.Information("Starting web application");
 
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -25,8 +26,8 @@ public class Program
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-
-            builder.AddBasicHealthChecks();
+        builder.Services.AddSingleton<IMessagePublisher, RabbitMqMessagePublisher>();
+        builder.AddBasicHealthChecks();
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<DefaultContext>(options =>
@@ -71,14 +72,6 @@ public class Program
             app.MapControllers();
 
             app.Run();
-        }
-        catch (Exception ex)
-        {
-            Log.Fatal(ex, "Application terminated unexpectedly");
-        }
-        finally
-        {
-            Log.CloseAndFlush();
-        }
+        
     }
 }

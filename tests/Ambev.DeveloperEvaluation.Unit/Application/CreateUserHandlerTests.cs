@@ -18,7 +18,7 @@ public class CreateUserHandlerTests
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
     private readonly IPasswordHasher _passwordHasher;
-    private readonly CreateSaleHandler _handler;
+    private readonly CreateUserHandler _handler;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CreateUserHandlerTests"/> class.

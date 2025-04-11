@@ -7,9 +7,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
     public class SaleItem : BaseEntity
     {
         public Guid SaleId { get; set; }
-        public Sale? Sale { get; set; }
 
-        public string ItemCode { get; set; } = string.Empty;
+        public Guid ItemCode { get; set; }
         public string ItemName { get; set; } = string.Empty;
 
         public decimal UnitPrice { get; private set; }
@@ -30,7 +29,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <param name="itemName">The name of the item.</param>
         /// <param name="unitPrice">The unit price of the item.</param>
         /// <param name="quantity">The quantity of the item.</param>
-        public SaleItem(string itemCode, string itemName, decimal unitPrice, int quantity)
+        public SaleItem(Guid itemCode, string itemName, decimal unitPrice, int quantity)
         {
             if (quantity > 20)
                 throw new BusinessRuleException("Cannot sell more than 20 units of the same product.");

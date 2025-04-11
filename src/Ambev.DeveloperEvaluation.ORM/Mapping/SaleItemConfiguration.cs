@@ -18,9 +18,5 @@ public class SaleItemConfiguration : IEntityTypeConfiguration<SaleItem>
         builder.Property(si => si.Discount).IsRequired().HasColumnType("decimal(18,2)");
         builder.Property(si => si.IsCancelled).IsRequired();
 
-        builder.HasOne(si => si.Sale)
-            .WithMany(s => s.Items)
-            .HasForeignKey(si => si.SaleId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }

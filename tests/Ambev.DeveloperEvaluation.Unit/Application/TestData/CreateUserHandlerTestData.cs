@@ -21,7 +21,7 @@ public static class CreateUserHandlerTestData
     /// - Status (Active or Suspended)
     /// - Role (Customer or Admin)
     /// </summary>
-    private static readonly Faker<CreateSaleCommand> createUserHandlerFaker = new Faker<CreateSaleCommand>()
+    private static readonly Faker<CreateUserCommand> createUserHandlerFaker = new Faker<CreateUserCommand>()
         .RuleFor(u => u.Username, f => f.Internet.UserName())
         .RuleFor(u => u.Password, f => $"Test@{f.Random.Number(100, 999)}")
         .RuleFor(u => u.Email, f => f.Internet.Email())
@@ -35,7 +35,7 @@ public static class CreateUserHandlerTestData
     /// that meet the system's validation requirements.
     /// </summary>
     /// <returns>A valid User entity with randomly generated data.</returns>
-    public static CreateSaleCommand GenerateValidCommand()
+    public static CreateUserCommand GenerateValidCommand()
     {
         return createUserHandlerFaker.Generate();
     }

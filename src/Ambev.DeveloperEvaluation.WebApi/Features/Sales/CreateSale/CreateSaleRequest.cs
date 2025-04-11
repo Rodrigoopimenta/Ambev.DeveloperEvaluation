@@ -1,23 +1,22 @@
-using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 
-namespace Ambev.DeveloperEvaluation.Application.Sale.GetSale;
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 
 /// <summary>
-/// Response model for GetSale operation
+/// Represents a request to create a new sale in the system.
 /// </summary>
-public class GetSaleResult
+public class CreateSaleRequest
 {
     /// <summary>
-    /// Gets or sets the unique sale number that identifies the sale.
+    /// Gets or sets the SaleNumber of the user to be created.
     /// </summary>
     public string SaleNumber { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the date and time when the sale was made.
+    /// Gets the date and time when the sale was made.
     /// </summary>
     public DateTime SaleDate { get; set; }
-
     /// <summary>
     /// Gets or sets the unique identifier of the customer who made the purchase.
     /// </summary>
@@ -47,10 +46,8 @@ public class GetSaleResult
     /// Gets or sets a value indicating whether the sale is cancelled.
     /// </summary>
     public bool IsCancelled { get; set; }
-
     /// <summary>
     /// Gets or sets the list of items associated with the sale.
     /// </summary>
-    public List<GetSaleItemResult> Items { get; set; } = new();
-
+    public List<SaleItem> Items { get; set; } = new();
 }
